@@ -13,11 +13,15 @@ trait Functions {
 
 object FunctionsImpl extends Functions {
 
-  override def sum(a: List[Double]): Double = ???
+  override def sum(a: List[Double]): Double = combiner(a)
 
-  override def concat(a: Seq[String]): String = ???
+  override def concat(a: Seq[String]): String = combiner(a)
 
-  override def max(a: List[Int]): Int = ???
+  override def max(a: List[Int]): Int = combiner(a)
+
+  def combiner[E](a:Seq[E])(implicit combiner: Combiner[E]): E ={
+    a.foldLeft(combiner.unit)(combiner.combine(_,_))
+  }
 }
 
 
@@ -37,6 +41,26 @@ object FunctionsImpl extends Functions {
 trait Combiner[A] {
   def unit: A
   def combine(a: A, b: A): A
+}
+
+object Combiner{
+  implicit val sumCombiner:Combiner[Double] = new Combiner[Double]{
+    override def unit:Double = 0.0
+
+    override def combine(a: Double, b: Double): Double = a+b
+  }
+
+  implicit val concatCombiner:Combiner[String] = new Combiner[String] {
+    override def unit: String = ""
+
+    override def combine(a: String, b: String): String = a+b
+  }
+
+  implicit val maxCombiner:Combiner[Int] = new Combiner[Int] {
+    override def unit: Int = Int.MinValue
+
+    override def combine(a: Int, b: Int): Int = if (a > b) a else b
+  }
 }
 
 object TryFunctions extends App {
