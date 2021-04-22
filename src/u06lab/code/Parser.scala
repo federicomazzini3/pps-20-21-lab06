@@ -11,13 +11,6 @@ import u06lab.code.Parser.StringParser
   * Note we also test that the two mixins can work together!!
   */
 
-/**
-  Analogamente a NonEmpty, creo il mixin NonTwoConsecutive,
-  in modo tale da identificare se due elementi consecutivi sono uguali
-  Così come NonEmpty, questo mixin sarà utilizzato per decorare BasicParser
-  andando così a creare NonTwoConsecutiveParser
- */
-
 abstract class Parser[T] {
   def parse(t: T): Boolean  // is the token accepted?
   def end(): Boolean        // is it ok to end here

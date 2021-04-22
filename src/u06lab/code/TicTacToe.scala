@@ -42,11 +42,10 @@ object TicTacToe {
   }
 
   def win(board: Board): Boolean = {
-    def winOnColumn(board: Board): Boolean = {
+     def winOnColumn(board: Board): Boolean = {
       for (col <- 0 to 2) {
         (find(board, 0, col), find(board, 1, col), find(board, 2, col)) match {
-          case (Some(X), Some(X), Some(X)) => return true
-          case (Some(O), Some(O), Some(O)) => return true
+          case (Some(X), Some(X), Some(X)) | (Some(O), Some(O), Some(O)) => return true
           case _ =>
         }
       }
@@ -56,8 +55,7 @@ object TicTacToe {
     def winOnRow(board: Board): Boolean = {
       for (row <- 0 to 2) {
         (find(board, row, 0), find(board, row, 1), find(board, row, 2)) match {
-          case (Some(X), Some(X), Some(X)) => return true
-          case (Some(O), Some(O), Some(O)) => return true
+          case (Some(X), Some(X), Some(X)) | (Some(O), Some(O), Some(O)) => return true
           case _ =>
         }
       }
@@ -65,14 +63,14 @@ object TicTacToe {
     }
 
     def winOnDiagonal(board: Board): Boolean = {
+      //diagonal
       (find(board, 0, 0), find(board, 1, 1), find(board, 2, 2)) match {
-        case (Some(X), Some(X), Some(X)) => return true
-        case (Some(O), Some(O), Some(O)) => return true
+        case (Some(X), Some(X), Some(X)) | (Some(O), Some(O), Some(O)) => return true
         case _ =>
       }
+      //anti diagonal
       (find(board, 2, 0), find(board, 1, 1), find(board, 0, 2)) match {
-        case (Some(X), Some(X), Some(X)) => return true
-        case (Some(O), Some(O), Some(O)) => return true
+        case (Some(X), Some(X), Some(X)) | (Some(O), Some(O), Some(O)) => return true
         case _ =>
       }
       false
@@ -124,8 +122,7 @@ object main extends App {
   //..X ... ... .X. ... ... X.. ...
 
   // Exercise 3 (ADVANCED!): implement computeAnyGame such that..
-  var i = 0;
-  computeAnyGame(X, 7) foreach { g => printBoards(g); println(); i = i + 1; println(i) }
+  computeAnyGame(X, 8) foreach { g => printBoards(g); println()}
   //... X.. X.. X.. XO.
   //... ... O.. O.. O..
   //... ... ... X.. X..
